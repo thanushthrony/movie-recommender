@@ -1,0 +1,9 @@
+# Serving the Flask app (inference runs in NumPy; no TensorFlow needed)
+flask>=2.2
+flask-login>=0.6
+flask-sqlalchemy>=3.0
+werkzeug>=2.2
+numpy>=1.21
+scikit-learn>=1.0
+h5py>=3.7
+pytest>=7.0

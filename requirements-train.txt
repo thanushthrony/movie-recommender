@@ -1,0 +1,4 @@
+# Training (train.py). Keras 2 is needed for the .h5 model format and
+# tf.linalg.l2_normalize on Keras tensors, so stay below TensorFlow 2.16.
+-r requirements.txt
+tensorflow>=2.10,<2.16
