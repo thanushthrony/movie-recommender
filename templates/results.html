@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Your recommendations · Movie Recommender{% endblock %}
+{% block content %}
+<h1>Your top 10</h1>
+<p class="lead">Predicted ratings from the trained model, with each movie's nearest neighbour in the learned embedding space.</p>
+
+<div class="chips">
+  {% for genre, stars in ratings.items() if stars %}
+    <span class="chip">{{ genre }} {{ "★" * stars|int }}</span>
+  {% endfor %}
+  <a class="chip" href="{{ url_for('index') }}">Change ✎</a>
+</div>
+
+<table>
+  <thead>
+    <tr><th>#</th><th>Movie</th><th>Predicted</th><th class="hide-sm">Most similar</th></tr>
+  </thead>
+  <tbody>
+    {% for m in results %}
+    <tr>
+      <td class="num">{{ loop.index }}</td>
+      <td>
+        <a class="title-link" href="{{ url_for('movie', movie_id=m.id) }}">{{ m.title }}</a>
+        <div class="genres">{{ m.genres }}</div>
+      </td>
+      <td class="num">
+        ★ {{ "%.2f"|format(m.predicted) }}
+        <div class="bar"><span style="width: {{ ((m.predicted - 0.5) / 4.5 * 100)|round|int }}%"></span></div>
+      </td>
+      <td class="hide-sm"><a href="{{ url_for('movie', movie_id=m.similar.id) }}">{{ m.similar.title }}</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

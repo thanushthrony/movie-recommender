@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Movie Recommender{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="{{ url_for('index') }}">Movie Recommender</a>
+      <div class="nav-links">
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('index') }}">Recommend</a>
+          <a href="{{ url_for('search') }}">Similar movies</a>
+          <a href="{{ url_for('movielens_user', user_id=2) }}">Model vs. real ratings</a>
+          <a href="{{ url_for('logout') }}">Log out</a>
+        {% else %}
+          <a href="{{ url_for('login') }}">Log in</a>
+          <a href="{{ url_for('signup') }}">Sign up</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="wrap">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      Enhanced Content-Based Recommendation System · NCECA 2023 ·
+      <a href="https://doi.org/10.5281/zenodo.7965018">paper</a> ·
+      <a href="{{ demo_url }}">in-browser demo</a>
+    </div>
+  </footer>
+</body>
+</html>

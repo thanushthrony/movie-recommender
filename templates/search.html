@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Find similar movies · Movie Recommender{% endblock %}
+{% block content %}
+<h1>Find similar movies</h1>
+<p class="lead">Search the 847-movie catalogue, then open a movie to see its nearest neighbours in embedding space.</p>
+<form method="get" class="actions" style="margin-bottom: 24px;">
+  <input type="search" name="q" value="{{ query }}" placeholder="e.g. Spider-Man, Toy Story, Batman" style="max-width: 420px;" autofocus>
+  <button class="btn" type="submit">Search</button>
+</form>
+{% if query and not hits %}
+  <p class="muted">No movies match "{{ query }}".</p>
+{% endif %}
+<div class="chips">
+  {% for m in hits %}
+    <span class="chip"><a href="{{ url_for('movie', movie_id=m.id) }}">{{ m.title }}</a></span>
+  {% endfor %}
+</div>
+{% endblock %}

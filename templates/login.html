@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Log in · Movie Recommender{% endblock %}
+{% block content %}
+<div class="auth">
+  <h1>Log in</h1>
+  <p class="lead">Log in to get movie recommendations from the trained model.</p>
+  <form method="post" class="card">
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required autofocus>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Log in</button>
+      <span class="muted">No account? <a href="{{ url_for('signup') }}">Sign up</a></span>
+    </div>
+  </form>
+</div>
+{% endblock %}

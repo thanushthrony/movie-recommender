@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>What do you like to watch?</h1>
+<p class="lead">
+  Rate the genres you care about (leave the rest at "—"). The user network turns these
+  ratings into a 32-dimensional taste vector, which is matched against the item network's
+  embedding of every movie in the catalogue.
+</p>
+<form method="get" action="{{ url_for('recommend') }}" class="card">
+  <div class="genre-grid">
+    {% for genre in genres %}
+    <div>
+      <label for="{{ genre }}">{{ genre }}</label>
+      <select id="{{ genre }}" name="{{ genre }}">
+        <option value="0">—</option>
+        {% for stars in [1, 2, 3, 4, 5] %}
+        <option value="{{ stars }}">{{ "★" * stars }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="actions">
+    <button class="btn" type="submit">Recommend movies</button>
+    <a class="btn ghost" href="{{ url_for('recommend', **{'Action': 5, 'Sci-Fi': 5, 'Adventure': 4}) }}">Try: sci-fi &amp; action fan</a>
+    <a class="btn ghost" href="{{ url_for('recommend', **{'Animation': 5, 'Children': 5, 'Comedy': 4}) }}">Try: family movie night</a>
+  </div>
+</form>
+{% endblock %}

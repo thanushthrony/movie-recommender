@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}MovieLens user {{ user_id }} · Movie Recommender{% endblock %}
+{% block content %}
+<h1>MovieLens user {{ user_id }}: model vs. reality</h1>
+<p class="lead">
+  This user's real ratings from the training data next to what the model predicts
+  from their genre profile alone.
+</p>
+
+<div class="actions" style="margin-bottom: 24px;">
+  <div>
+    <div class="stat">{{ "%.2f"|format(mae) }}</div>
+    <div class="muted">mean absolute error (stars) over {{ rated|length }} movies</div>
+  </div>
+</div>
+
+<h2>Genre profile</h2>
+<div class="chips">
+  {% for genre, avg in genre_ratings.items() if avg %}
+    <span class="chip">{{ genre }} {{ "%.1f"|format(avg) }}</span>
+  {% endfor %}
+</div>
+
+<h2>Rated movies</h2>
+<table>
+  <thead><tr><th>Movie</th><th>Actual</th><th>Predicted</th></tr></thead>
+  <tbody>
+    {% for m in rated %}
+    <tr>
+      <td>
+        <a class="title-link" href="{{ url_for('movie', movie_id=m.id) }}">{{ m.title }}</a>
+        <div class="genres">{{ m.genres }}</div>
+      </td>
+      <td class="num">★ {{ "%.1f"|format(m.actual) }}</td>
+      <td class="num">★ {{ "%.2f"|format(m.predicted) }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h2>Other users</h2>
+<div class="chips">
+  {% for uid in user_ids %}
+    <span class="chip"><a href="{{ url_for('movielens_user', user_id=uid) }}">{{ uid }}</a></span>
+  {% endfor %}
+</div>
+{% endblock %}

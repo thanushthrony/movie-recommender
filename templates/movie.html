@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ movie.title }} · Movie Recommender{% endblock %}
+{% block content %}
+<h1>{{ movie.title }}</h1>
+<p class="lead">{{ movie.genres }}</p>
+
+<h2>Most similar movies</h2>
+<p class="muted" style="margin-bottom: 12px;">Nearest neighbours by squared distance between the trained item-network embeddings.</p>
+<table>
+  <thead><tr><th>Movie</th><th>Distance</th></tr></thead>
+  <tbody>
+    {% for m in similar %}
+    <tr>
+      <td>
+        <a class="title-link" href="{{ url_for('movie', movie_id=m.id) }}">{{ m.title }}</a>
+        <div class="genres">{{ m.genres }}</div>
+      </td>
+      <td class="num">{{ "%.3f"|format(m.distance) }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
